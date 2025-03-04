@@ -1,0 +1,72 @@
+<!-- book_appointment.html -->
+{% extends 'users/base.html' %}
+
+{% block title %}Book Appointment{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1>Book Appointment with Dr. {{ doctor.get_full_name }}</h1>
+</div>
+
+<div class="card" style="max-width: 800px; margin: 2rem auto;">
+    <div class="card-header">
+        <h4>Appointment Details</h4>
+    </div>
+    <div class="card-body">
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Custom Dropdown for Specialties -->
+            <div class="form-group">
+                <label for="specialtyDropdown">Select Specialty:</label>
+                <select class="form-control" id="specialtyDropdown" name="specialty">
+                    {% for specialty in doctor.specialties.all %}
+                        <option value="{{ specialty.name }}">{{ specialty.name }}</option>
+                    {% empty %}
+                        <option>No specialties available</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Render the rest of the form fields -->
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">Confirm Booking</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const specialtyDropdown = document.getElementById('specialtyDropdown');
+        const appointmentDateInput = document.getElementById('id_appointment_date');
+        const startTimeInput = document.getElementById('id_start_time');
+
+        const now = new Date();
+        const currentDate = now.toISOString().split('T')[0];
+        const currentTime = now.toTimeString().split(' ')[0];
+
+        // Set the minimum date to today
+        appointmentDateInput.setAttribute('min', currentDate);
+
+        // Validate time if the selected date is today
+        appointmentDateInput.addEventListener('change', function() {
+            if (appointmentDateInput.value === currentDate) {
+                startTimeInput.setAttribute('min', currentTime);
+            } else {
+                startTimeInput.removeAttribute('min');
+            }
+        });
+
+        // Enforce 45-minute intervals for time selection
+        startTimeInput.addEventListener('change', function() {
+            const time = startTimeInput.value;
+            if (time) {
+                const [hours, minutes] = time.split(':');
+                const roundedMinutes = Math.floor(minutes / 45) * 45;
+                startTimeInput.value = `${hours}:${roundedMinutes.toString().padStart(2, '0')}`;
+            }
+        });
+    });
+</script>
+{% endblock %}

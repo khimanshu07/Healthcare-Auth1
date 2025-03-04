@@ -1,0 +1,29 @@
+<!-- appointment_confirmation.html -->
+{% extends 'users/base.html' %}
+
+{% block title %}Appointment Confirmation{% endblock %}
+
+{% block content %}
+    <div class="welcome-section">
+        <h1>Appointment Confirmed</h1>
+        <p>Your appointment has been successfully booked.</p>
+    </div>
+
+    <div class="card" style="max-width: 800px; margin: 2rem auto;">
+        <div class="card-header">
+            <h4>Appointment Details</h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.get_full_name }}</p>
+            <p><strong>Specialty:</strong> {{ appointment.specialty }}</p>
+            <p><strong>Date:</strong> {{ appointment.appointment_date }}</p>
+            <p><strong>Time:</strong> {{ appointment.start_time }} to {{ appointment.end_time }}</p>
+            {% if appointment.google_calendar_event_id %}
+                <p><strong>Google Calendar Event ID:</strong> {{ appointment.google_calendar_event_id }}</p>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+            <a href="{% url 'patient_dashboard' %}" class="btn btn-primary">Return to Dashboard</a>
+        </div>
+    </div>
+{% endblock %}

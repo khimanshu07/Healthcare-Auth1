@@ -1,0 +1,37 @@
+<!-- appointments/templates/appointments/list_doctors.html -->
+{% extends 'users/base.html' %}
+
+{% block title %}List of Doctors{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1>List of Doctors</h1>
+    <p>Select a doctor to book an appointment.</p>
+</div>
+
+<div class="card" style="max-width: 800px; margin: 2rem auto;">
+    <div class="card-header">
+        <h4>Doctors</h4>
+    </div>
+    <div class="card-body">
+        <ul class="list-unstyled">
+            {% for doctor in doctors %}
+                <li class="doctor-item mb-3 p-3 border rounded">
+                    <div class="d-flex align-items-center">
+                        <!-- Doctor's Profile Picture -->
+                        <img src="{{ doctor.profile_picture.url }}" alt="{{ doctor.first_name }}" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+
+                        <!-- Doctor's Name -->
+                        <div class="flex-grow-1">
+                            <strong>{{ doctor.first_name }} {{ doctor.last_name }}</strong>
+                        </div>
+
+                        <!-- Book Appointment Button -->
+                        <a href="{% url 'book_appointment' doctor.id %}" class="btn btn-primary">Book Appointment</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

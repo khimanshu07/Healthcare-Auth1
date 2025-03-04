@@ -1,0 +1,69 @@
+<!-- patient_dashboard.html -->
+{% extends 'users/base.html' %}
+
+{% block title %}Patient Dashboard{% endblock %}
+
+{% block content %}
+    <div class="welcome-section">
+        <h1>Welcome, {{ user.get_full_name }}</h1>
+        <p>Explore blogs, read articles, and stay informed about healthcare topics.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Profile Information</h4>
+                </div>
+                <div class="card-body">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" class="profile-picture">
+                    {% endif %}
+                    <h5>{{ user.get_full_name }}</h5>
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Address:</strong> {{ user.address_line1 }}, {{ user.city }}, {{ user.state }} - {{ user.pincode }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Blog Categories</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% if categories %}
+                            {% for category in categories %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ category.name }}</h5>
+                                            <a href="{% url 'blog_list' %}?category={{ category.id }}" class="btn btn-primary btn-sm">View Posts</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-12">
+                                <p>No categories available.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Appointment Booking Button -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4>Appointments</h4>
+                </div>
+                <div class="card-body">
+                    <p>Book an appointment with a doctor.</p>
+                    <a href="{% url 'list_doctors' %}" class="btn btn-success">Book Appointment</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

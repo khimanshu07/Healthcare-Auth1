@@ -1,0 +1,47 @@
+<!-- doctor_appointments.html -->
+{% extends 'users/base.html' %}
+
+{% block title %}My Appointments{% endblock %}
+
+{% block content %}
+    <div class="welcome-section">
+        <h1>My Appointments</h1>
+        <p>View all your upcoming appointments.</p>
+    </div>
+
+    <div class="card" style="max-width: 800px; margin: 2rem auto;">
+        <div class="card-header">
+            <h4>Appointment List</h4>
+        </div>
+        <div class="card-body">
+            {% if appointments %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Specialty</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for appointment in appointments %}
+                            <tr>
+                                <td>{{ appointment.patient.get_full_name }}</td>
+                                <td>{{ appointment.specialty }}</td>
+                                <td>{{ appointment.appointment_date }}</td>
+                                <td>{{ appointment.start_time }} to {{ appointment.end_time }}</td>
+                                <td>
+                                    <a href="{% url 'view_appointment' appointment.id %}" class="btn btn-info btn-sm">View Details</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No appointments found.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

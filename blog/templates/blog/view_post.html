@@ -1,0 +1,59 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<div class="row" style="max-width: 100%; margin: 2rem auto;">
+    <div class="col-md-10 offset-md-1">
+        <div class="card mb-4">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}" style="max-height: 400px; object-fit: cover;">
+            {% endif %}
+            <div class="card-body">
+                <h1 class="card-title">{{ post.title }}</h1>
+                <p class="text-muted">
+                    Category: <span class="badge bg-secondary">{{ post.category.name }}</span> | 
+                    Published: {{ post.created_at|date:"F d, Y" }} | 
+                    Author: {{ post.author.get_full_name }}
+                    {% if post.is_draft %}
+                        <span class="badge bg-warning text-dark">Draft</span>
+                    {% endif %}
+                </p>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h4>Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ post.summary }}
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Content</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ post.content|linebreaks }}
+                    </div>
+                </div>
+                
+                {% if post.author == user %}
+                    <div class="mt-4">
+                        <a href="{% url 'edit_blog_post' post.id %}" class="btn btn-primary">Edit</a>
+                        <a href="{% url 'delete_blog_post' post.id %}" class="btn btn-danger">Delete</a>
+                    </div>
+                {% endif %}
+                
+                <div class="mt-4">
+                    {% if user.user_type == 'doctor' %}
+                        <a href="{% url 'my_blog_posts' %}" class="btn btn-secondary">Back to My Posts</a>
+                    {% else %}
+                        <a href="{% url 'blog_list' %}" class="btn btn-secondary">Back to Blog List</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

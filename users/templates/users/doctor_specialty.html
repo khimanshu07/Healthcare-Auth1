@@ -1,0 +1,23 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Doctor Specialty{% endblock %}
+
+{% block content %}
+    <div class="welcome-section">
+        <h1>Welcome, Dr. {{ user.get_full_name }}</h1>
+        <p>Please select your specialties to continue.</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Specialty Information</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Save Specialties</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'users/base.html' %}
+{% block title %}Welcome to Healthcare Portal{% endblock %}
+{% block content %}
+<div class="welcome-section">
+    <h1>Welcome to Healthcare Portal</h1>
+    <p class="mt-3">Connect with healthcare professionals and manage your medical needs</p>
+</div>
+<div class="card" style="max-width: 600px; margin: 2rem auto;" hidden>
+    <div style="text-align: center;">
+        <h2 style="margin-bottom: 2rem;">Get Started</h2>
+        <div style="display: flex; justify-content: center; gap: 2rem;">
+            <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+            <a href="{% url 'signup' %}" class="btn btn-primary">Sign Up</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

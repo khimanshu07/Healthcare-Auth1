@@ -1,0 +1,86 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Doctor Dashboard{% endblock %}
+
+{% block content %}
+    <div class="welcome-section">
+        <h1>Welcome, Dr. {{ user.get_full_name }}</h1>
+        <p>Manage your profile, create blog posts, and share your expertise with the community.</p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Profile Information</h4>
+                </div>
+                <div class="card-body">
+                    {% if user.profile_picture %}
+                        <img src="{{ user.profile_picture.url }}" class="profile-picture">
+                    {% endif %}
+                    <h5>{{ user.get_full_name }}</h5>
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Specialty:</strong>
+                        {% if user.specialties.all %}
+                            <ul>
+                                {% for specialty in user.specialties.all %}
+                                    <li>{{ specialty.name }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            No specialties selected.
+                        {% endif %}
+                    </p>
+                    <p><strong>Address:</strong> {{ user.address_line1 }}, {{ user.city }}, {{ user.state }} - {{ user.pincode }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Blog Management</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Create New Blog Post</h5>
+                                    <p class="card-text">Share your medical expertise by writing a new blog post.</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="{% url 'create_blog_post' %}" class="btn btn-primary">Create Post</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Manage My Posts</h5>
+                                    <p class="card-text">View, edit, and manage all your published and draft blog posts.</p>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a href="{% url 'my_blog_posts' %}" class="btn btn-primary">View My Posts</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Appointments Section -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h4>My Appointments</h4>
+                </div>
+                <div class="card-body">
+                    <p>View all your upcoming appointments.</p>
+                    <a href="{% url 'doctor_appointments' %}" class="btn btn-success">View Appointments</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
