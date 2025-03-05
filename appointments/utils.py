@@ -55,11 +55,11 @@ def create_google_calendar_event(request, appointment):
         'description': f'Appointment for {appointment.specialty}',
         'start': {
             'dateTime': f'{appointment.appointment_date}T{appointment.start_time}:00',
-            'timeZone': 'UTC',
+            'timeZone': 'Asia/Kolkata',
         },
         'end': {
             'dateTime': f'{appointment.appointment_date}T{appointment.end_time}:00',
-            'timeZone': 'UTC',
+            'timeZone': 'Asia/Kolkata',
         },
     }
 
