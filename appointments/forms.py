@@ -58,8 +58,10 @@ class AppointmentForm(forms.ModelForm):
         end_time = (datetime.datetime.combine(datetime.date.today(), start_time) + datetime.timedelta(minutes=45)).time()
 
         # Validate appointment time if the date is today
-        if appointment_date == current_date and start_time < current_time:
-            raise ValidationError("Appointment time cannot be in the past.")
+        if appointment_date == current_date:
+            # Check if the selected time slot is in the past
+            if start_time < current_time:
+                raise ValidationError("You cannot select a time slot that has already passed for today.")
 
         # Check for overlapping appointments
         if self.doctor:
