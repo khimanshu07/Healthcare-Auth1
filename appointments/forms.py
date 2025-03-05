@@ -1,6 +1,6 @@
 from django import forms
 from .models import Appointment
-from .utils import get_available_time_slots, generate_time_slots
+from .utils import get_available_time_slots, generate_time_slots,timezone   
 from django.core.exceptions import ValidationError
 import datetime
 
@@ -38,7 +38,7 @@ class AppointmentForm(forms.ModelForm):
         specialty = self.data.get('specialty')
         
         # Get the current date and time
-        now = datetime.datetime.now()
+        now = timezone.now()
         current_date = now.date()
         current_time = now.time()
 
